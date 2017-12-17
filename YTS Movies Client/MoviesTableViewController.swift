@@ -11,25 +11,36 @@ import Moya
 
 class MoviesTableViewController: UITableViewController {
 
+    var movies = [Array<Movie>]()
     
-    
+    func insertMovies(_ newMovies: [Movie]){
+        self.movies.append(newMovies)
+        self.tableView.insertSections([0], with: .fade)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.estimatedRowHeight = tableView.rowHeight
+        tableView.rowHeight = UITableViewAutomaticDimension
 
-        
+        var moviesSection = [Movie]()
         let provider = MoyaProvider<YTSAllMoviesService>()
         provider.request(.showMoviesBy(page: 1)){ result in
             switch result {
             case let .success(moyaResponse):
                 let data = moyaResponse.data
-                let statusCode = moyaResponse.statusCode
-                let json = try? JSONSerialization.jsonObject(with: data, options: [])
-                if let jsondata = json as? [String: AnyObject]{
-                    print(jsondata["data"])
+                let jsonObj = try? JSONSerialization.jsonObject(with: data, options: [])
+                if let json = jsonObj as? [String: Any]{
+                    if let jsonData = json["data"] as? [String: Any]{
+                        if let moviesData = jsonData["movies"] as? [[String: Any]]{
+                            for movieData in moviesData{
+                                let movie = Movie(json: movieData)!
+                                moviesSection.append(movie)
+                            }
+                        }
+                    }
                 }
-                print ()
-                print (statusCode)
+                self.insertMovies(moviesSection)
             case let .failure(error):
                 // handle errors here
                 print(error)
@@ -55,23 +66,25 @@ class MoviesTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return self.movies.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return self.movies[section].count
     }
 
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "movieViewCell", for: indexPath)
+        
+        let movie: Movie = movies[indexPath.section][indexPath.row]
+        
+        if let movieCell = cell as? MovieViewCell {
+            movieCell.movie = movie
+        }
+        
         return cell
     }
-    */
 
     /*
     // Override to support conditional editing of the table view.
