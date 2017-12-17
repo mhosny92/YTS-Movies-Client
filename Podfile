@@ -1,0 +1,10 @@
+# Uncomment the next line to define a global platform for your project
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '9.0'
+use_frameworks!
+
+target 'YTS Movies Client' do
+    pod 'Kingfisher'
+    pod 'Moya'
+
+end
