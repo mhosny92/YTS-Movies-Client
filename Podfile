@@ -6,5 +6,6 @@ use_frameworks!
 target 'YTS Movies Client' do
     pod 'Kingfisher'
     pod 'Moya'
+pod 'Cosmos'
 
 end

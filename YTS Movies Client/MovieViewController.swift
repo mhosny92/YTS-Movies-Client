@@ -8,6 +8,7 @@
 
 import UIKit
 import Kingfisher
+import Cosmos
 
 class MovieViewController: UIViewController {
 
@@ -16,12 +17,14 @@ class MovieViewController: UIViewController {
     @IBOutlet weak var mediumCoverImage: UIImageView!
     @IBOutlet weak var mTitle: UILabel!
     @IBOutlet weak var mDescription: UITextView!
+    @IBOutlet weak var rating: CosmosView!
     override func viewDidLoad() {
         super.viewDidLoad()
 
         mDescription.isEditable = false
         title = movie?.titleEnglish
         updateUI()
+        rating.settings.updateOnTouch = false
     }
     
     private func updateUI(){
@@ -29,6 +32,7 @@ class MovieViewController: UIViewController {
         mDescription.text = movie?.descriptionFull
         let resource = ImageResource(downloadURL: movie!.largetCoverImage, cacheKey: movie!.titleEnglish)
         mediumCoverImage.kf.setImage(with: resource)
+        rating.rating = Double(movie!.rating)
     }
 
     override func didReceiveMemoryWarning() {

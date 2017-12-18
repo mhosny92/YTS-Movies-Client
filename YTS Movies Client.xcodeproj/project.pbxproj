@@ -14,7 +14,6 @@
 		52579DB01FE537DD00548DDE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52579DAE1FE537DD00548DDE /* Main.storyboard */; };
 		52579DB21FE537DD00548DDE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52579DB11FE537DD00548DDE /* Assets.xcassets */; };
 		52579DB51FE537DD00548DDE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52579DB31FE537DD00548DDE /* LaunchScreen.storyboard */; };
-		529C3DE71FE6AFBE0093DD57 /* YTSSingleMovieService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529C3DE61FE6AFBE0093DD57 /* YTSSingleMovieService.swift */; };
 		529C3DE91FE6B4930093DD57 /* MoviesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529C3DE81FE6B4930093DD57 /* MoviesTableViewController.swift */; };
 		529C3DEB1FE6D4240093DD57 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529C3DEA1FE6D4240093DD57 /* Movie.swift */; };
 		52C8C85F1FE684EC0058B323 /* YTSAllMoviesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C8C85E1FE684EC0058B323 /* YTSAllMoviesService.swift */; };
@@ -30,7 +29,6 @@
 		52579DB11FE537DD00548DDE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		52579DB41FE537DD00548DDE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		52579DB61FE537DD00548DDE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		529C3DE61FE6AFBE0093DD57 /* YTSSingleMovieService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YTSSingleMovieService.swift; sourceTree = "<group>"; };
 		529C3DE81FE6B4930093DD57 /* MoviesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesTableViewController.swift; sourceTree = "<group>"; };
 		529C3DEA1FE6D4240093DD57 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		52C8C85E1FE684EC0058B323 /* YTSAllMoviesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YTSAllMoviesService.swift; sourceTree = "<group>"; };
@@ -85,7 +83,6 @@
 				52579DB31FE537DD00548DDE /* LaunchScreen.storyboard */,
 				52579DB61FE537DD00548DDE /* Info.plist */,
 				52C8C85E1FE684EC0058B323 /* YTSAllMoviesService.swift */,
-				529C3DE61FE6AFBE0093DD57 /* YTSSingleMovieService.swift */,
 				529C3DE81FE6B4930093DD57 /* MoviesTableViewController.swift */,
 				529C3DEA1FE6D4240093DD57 /* Movie.swift */,
 				523CE0621FE6F2B700D44358 /* MovieViewCell.swift */,
@@ -215,6 +212,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-YTS Movies Client/Pods-YTS Movies Client-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Cosmos/Cosmos.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/Moya/Moya.framework",
 				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
@@ -222,6 +220,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cosmos.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
@@ -238,7 +237,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				529C3DE71FE6AFBE0093DD57 /* YTSSingleMovieService.swift in Sources */,
 				520246091FE70D530010A3B1 /* MovieViewController.swift in Sources */,
 				52C8C85F1FE684EC0058B323 /* YTSAllMoviesService.swift in Sources */,
 				529C3DE91FE6B4930093DD57 /* MoviesTableViewController.swift in Sources */,

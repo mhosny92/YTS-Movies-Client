@@ -102,6 +102,7 @@ class MoviesTableViewController: UITableViewController, UITextFieldDelegate {
         
         if let movieCell = cell as? MovieViewCell {
             movieCell.movie = movie
+            movieCell.rating.settings.updateOnTouch = false
         }
         
         return cell

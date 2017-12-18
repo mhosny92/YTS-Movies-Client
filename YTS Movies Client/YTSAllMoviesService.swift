@@ -44,6 +44,7 @@ extension YTSAllMoviesService: TargetType{
         case .searchMoviesBy(let name, let page):
             params["query_term"] = name
             params["page"] = page
+            params["limit"] = 50
             return .requestParameters(parameters: params, encoding: URLEncoding.default)
             
         }

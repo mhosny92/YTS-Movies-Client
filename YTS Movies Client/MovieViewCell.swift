@@ -8,12 +8,14 @@
 
 import UIKit
 import Kingfisher
+import Cosmos
 
 class MovieViewCell: UITableViewCell {
 
     @IBOutlet weak var smallCoverImage: UIImageView!
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var summary: UILabel!
+    @IBOutlet weak var rating: CosmosView!
     
     var movie: Movie? { didSet{ updateUI() } }
     private func updateUI(){
@@ -21,6 +23,7 @@ class MovieViewCell: UITableViewCell {
         summary.text = movie?.summary
         let resource = ImageResource(downloadURL: movie!.mediumCoverImage, cacheKey: movie?.titleEnglish)
         smallCoverImage.kf.setImage(with: resource)
+        rating.rating = Double(movie!.rating)
     }
 
 }
