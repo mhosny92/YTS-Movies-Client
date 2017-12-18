@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class MovieViewController: UIViewController {
 
@@ -26,6 +27,8 @@ class MovieViewController: UIViewController {
     private func updateUI(){
         mTitle.text = movie?.titleEnglish
         mDescription.text = movie?.descriptionFull
+        let resource = ImageResource(downloadURL: movie!.largetCoverImage, cacheKey: movie!.titleEnglish)
+        mediumCoverImage.kf.setImage(with: resource)
     }
 
     override func didReceiveMemoryWarning() {

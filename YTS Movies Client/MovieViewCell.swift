@@ -19,7 +19,8 @@ class MovieViewCell: UITableViewCell {
     private func updateUI(){
         title.text = movie?.titleEnglish
         summary.text = movie?.summary
-        smallCoverImage.kf.setImage(with: movie?.smallCoverImage)
+        let resource = ImageResource(downloadURL: movie!.smallCoverImage, cacheKey: movie?.titleEnglish)
+        smallCoverImage.kf.setImage(with: resource)
     }
 
 }
