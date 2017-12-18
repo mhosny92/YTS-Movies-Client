@@ -10,10 +10,22 @@ import UIKit
 
 class MovieViewController: UIViewController {
 
+    var movie : Movie?
+    
+    @IBOutlet weak var mediumCoverImage: UIImageView!
+    @IBOutlet weak var mTitle: UILabel!
+    @IBOutlet weak var mDescription: UITextView!
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        mDescription.isEditable = false
+        title = movie?.titleEnglish
+        updateUI()
+    }
+    
+    private func updateUI(){
+        mTitle.text = movie?.titleEnglish
+        mDescription.text = movie?.descriptionFull
     }
 
     override func didReceiveMemoryWarning() {

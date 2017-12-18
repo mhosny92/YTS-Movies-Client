@@ -9,23 +9,32 @@
 import UIKit
 import Moya
 
-class MoviesTableViewController: UITableViewController {
-
-    var movies = [Array<Movie>]()
+class MoviesTableViewController: UITableViewController, UITextFieldDelegate {
     
-    func insertMovies(_ newMovies: [Movie]){
-        self.movies.append(newMovies)
-        self.tableView.insertSections([0], with: .fade)
+   
+    @IBOutlet weak var searchMovieTextField: UITextField!{
+        didSet{
+            searchMovieTextField.delegate = self
+        }
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        tableView.estimatedRowHeight = tableView.rowHeight
-        tableView.rowHeight = UITableViewAutomaticDimension
-
+    var searchText: String?{
+        didSet{
+            searchMovieTextField?.text = searchText
+            searchMovieTextField?.resignFirstResponder()
+            movies.removeAll()
+            tableView.reloadData()
+            searchMovies()
+            title = searchText
+            
+            
+        }
+    }
+    
+    func searchMovies(){
         var moviesSection = [Movie]()
-        let provider = MoyaProvider<YTSAllMoviesService>()
-        provider.request(.showMoviesBy(page: 1)){ result in
+        let provider = MoyaProvider<YTSAllMoviesService>(plugins: [NetworkLoggerPlugin()])
+        provider.request(.searchMoviesBy(name: self.searchText! ,page: self.page)){ result in
             switch result {
             case let .success(moyaResponse):
                 let data = moyaResponse.data
@@ -44,17 +53,31 @@ class MoviesTableViewController: UITableViewController {
             case let .failure(error):
                 // handle errors here
                 print(error)
-            
             }
-            
         }
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+    }
+    
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == searchMovieTextField {
+            searchText = searchMovieTextField.text
+        }
+        return true
+    }
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-       
+    var page = 1
+    var searchActive = false
+    var movies = [Array<Movie>]()
+    
+    func insertMovies(_ newMovies: [Movie]){
+        self.movies.append(newMovies)
+        self.tableView.insertSections([0], with: .fade)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        tableView.estimatedRowHeight = tableView.rowHeight
+        tableView.rowHeight = UITableViewAutomaticDimension
     }
 
     override func didReceiveMemoryWarning() {
@@ -121,14 +144,15 @@ class MoviesTableViewController: UITableViewController {
     }
     */
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "MovieDetails"{
+            let controller = segue.destination as! MovieViewController
+            if let indexPath = tableView.indexPath(for: sender as! UITableViewCell){
+                controller.movie = movies[indexPath.section][indexPath.row]
+            }
+        }
     }
-    */
+    
 
 }

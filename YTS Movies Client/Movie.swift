@@ -22,6 +22,7 @@ struct Movie{
     let summary:String
     let genres: Set<String>
     let mediumCoverImage: URL
+    let smallCoverImage: URL
     
     init?(json: [String: Any]){
         guard let id = json["id"] as? Int,
@@ -35,7 +36,8 @@ struct Movie{
             let year = json["year"] as? Int,
             let summary = json["summary"] as? String,
             let genresJson = json["genres"] as? [String],
-            let mediumCoverImage = json["medium_cover_image"] as? String
+            let mediumCoverImage = json["medium_cover_image"] as? String,
+            let smallCoverImage = json["small_cover_image"] as? String
         else {
                 return nil
         }
@@ -56,5 +58,6 @@ struct Movie{
         self.backGroundImageOriginalURL = URL.init(string: backGroundImageOriginal)!
         self.genres = genres
         self.mediumCoverImage = URL.init(string: mediumCoverImage)!
+        self.smallCoverImage = URL.init(string: smallCoverImage)!
     }
 }

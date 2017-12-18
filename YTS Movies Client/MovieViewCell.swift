@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class MovieViewCell: UITableViewCell {
 
@@ -18,6 +19,7 @@ class MovieViewCell: UITableViewCell {
     private func updateUI(){
         title.text = movie?.titleEnglish
         summary.text = movie?.summary
+        smallCoverImage.kf.setImage(with: movie?.smallCoverImage)
     }
 
 }
