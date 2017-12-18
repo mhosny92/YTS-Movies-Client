@@ -11,13 +11,20 @@ import Moya
 
 class MoviesTableViewController: UITableViewController, UITextFieldDelegate {
     
-   
+   /*
+     Search Movie TextField
+     */
     @IBOutlet weak var searchMovieTextField: UITextField!{
         didSet{
             searchMovieTextField.delegate = self
         }
     }
     
+    /*
+     Stored property for the search text field
+     When it's set we remove the old search result and update our tableview
+     and start making an api request for searching the movie name
+     */
     var searchText: String?{
         didSet{
             searchMovieTextField?.text = searchText
@@ -25,11 +32,11 @@ class MoviesTableViewController: UITableViewController, UITextFieldDelegate {
             movies.removeAll()
             tableView.reloadData()
             searchMovies()
-            
-            
         }
     }
-    
+    /*
+     Searchs a movie in yts api and saves the resulting movies in a section in movies array
+     */
     func searchMovies(){
         var moviesSection = [Movie]()
         let provider = MoyaProvider<YTSAllMoviesService>(plugins: [NetworkLoggerPlugin()])
@@ -56,7 +63,9 @@ class MoviesTableViewController: UITableViewController, UITextFieldDelegate {
         }
     }
     
-    
+    /*
+     Called when the user hits the return button in keyboard entering the search term.
+     */
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == searchMovieTextField {
             searchText = searchMovieTextField.text
@@ -68,6 +77,9 @@ class MoviesTableViewController: UITableViewController, UITextFieldDelegate {
     var searchActive = false
     var movies = [Array<Movie>]()
     
+    /*
+     Insert the search results in the movies array
+     */
     func insertMovies(_ newMovies: [Movie]){
         self.movies.append(newMovies)
         self.tableView.insertSections([0], with: .fade)
@@ -79,13 +91,6 @@ class MoviesTableViewController: UITableViewController, UITextFieldDelegate {
         tableView.rowHeight = UITableViewAutomaticDimension
         title = "Search YTS Movies"
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         return self.movies.count
@@ -107,43 +112,10 @@ class MoviesTableViewController: UITableViewController, UITextFieldDelegate {
         
         return cell
     }
-
     /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    
+     Preparing for segue transition when the user hits a certain cell.
+     Sets the movie for the Movie View Controller.
+     */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "MovieDetails"{
             let controller = segue.destination as! MovieViewController

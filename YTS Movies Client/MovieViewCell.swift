@@ -18,6 +18,9 @@ class MovieViewCell: UITableViewCell {
     @IBOutlet weak var rating: CosmosView!
     
     var movie: Movie? { didSet{ updateUI() } }
+    /*
+     updates the UI based on the movie change.
+     */
     private func updateUI(){
         title.text = movie?.titleEnglish
         summary.text = movie?.summary

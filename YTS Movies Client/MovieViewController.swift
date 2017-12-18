@@ -26,7 +26,9 @@ class MovieViewController: UIViewController {
         updateUI()
         rating.settings.updateOnTouch = false
     }
-    
+    /*
+     updates the UI based on the movie change.
+     */
     private func updateUI(){
         mTitle.text = movie?.titleEnglish
         mDescription.text = movie?.descriptionFull
@@ -34,21 +36,5 @@ class MovieViewController: UIViewController {
         mediumCoverImage.kf.setImage(with: resource)
         rating.rating = Double(movie!.rating)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

@@ -10,27 +10,43 @@ import Foundation
 import Moya
 
 enum YTSAllMoviesService{
+    // In case of allowing the user to view all the movies
+    // Paging is used when the user scrolls down
     case showMoviesBy(page: Int)
+    
+    // In case of searching for a certain movie name.
+    // Paging is used when the user scrolls down
     case searchMoviesBy(name: String, page: Int)
+    
+    // In case of allowing the user to view all the movies
+    // Inteded to use if the user connection is fast (limit = 50)
+    // Paging is used when the user scrolls down
     case showMoviesByPageAndLimit(page: Int, limit: Int)
 }
 
 
 extension YTSAllMoviesService: TargetType{
-    var baseURL: URL{ return URL(string:"https://yts.am/api/v2/list_movies.json")!}
+    // base api request URL
+    var baseURL: URL{ return URL(string:"https://yts.am/api/v2/")!}
     var path: String {
         switch self {
+        // All requests use list_movies api
         case .showMoviesBy, .showMoviesByPageAndLimit, .searchMoviesBy:
-            return ""
+            return "list_movies.json/"
         }
     }
     
     var method: Moya.Method{
         switch self {
+        // We are not POSTing anything in this project
         case .showMoviesBy, .showMoviesByPageAndLimit, .searchMoviesBy:
             return .get
         }
     }
+    
+    /*
+     Adding HTTP request parameters to each call we have
+     */
     var task:Task {
         var params: [String: Any] = [:]
         switch self {
@@ -49,6 +65,10 @@ extension YTSAllMoviesService: TargetType{
             
         }
     }
+    
+    /*
+     Sample request data.
+     */
     var sampleData: Data{
         switch self {
         case .showMoviesBy(let page):
