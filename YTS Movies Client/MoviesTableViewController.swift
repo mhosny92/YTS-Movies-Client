@@ -25,7 +25,6 @@ class MoviesTableViewController: UITableViewController, UITextFieldDelegate {
             movies.removeAll()
             tableView.reloadData()
             searchMovies()
-            title = searchText
             
             
         }
@@ -78,6 +77,7 @@ class MoviesTableViewController: UITableViewController, UITextFieldDelegate {
         super.viewDidLoad()
         tableView.estimatedRowHeight = tableView.rowHeight
         tableView.rowHeight = UITableViewAutomaticDimension
+        title = "Search YTS Movies"
     }
 
     override func didReceiveMemoryWarning() {
@@ -88,12 +88,10 @@ class MoviesTableViewController: UITableViewController, UITextFieldDelegate {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return self.movies.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return self.movies[section].count
     }
 
