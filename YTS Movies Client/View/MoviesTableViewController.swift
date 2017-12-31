@@ -8,10 +8,15 @@
 
 import UIKit
 import Moya
+import Kingfisher
 
 class MoviesTableViewController: UITableViewController, UITextFieldDelegate {
     
-   /*
+    
+    // ViewModel outlet
+    @IBOutlet weak var viewModel: SearchMoviesViewModel!
+    
+    /*
      Search Movie TextField
      */
     @IBOutlet weak var searchMovieTextField: UITextField!{
@@ -29,40 +34,12 @@ class MoviesTableViewController: UITableViewController, UITextFieldDelegate {
         didSet{
             searchMovieTextField?.text = searchText
             searchMovieTextField?.resignFirstResponder()
-            movies.removeAll()
-            tableView.reloadData()
-            searchMovies()
-        }
-    }
-    /*
-     Searchs a movie in yts api and saves the resulting movies in a section in movies array
-     */
-    func searchMovies(){
-        var moviesSection = [Movie]()
-        let provider = MoyaProvider<YTSAllMoviesService>(plugins: [NetworkLoggerPlugin()])
-        provider.request(.searchMoviesBy(name: self.searchText! ,page: self.page)){ result in
-            switch result {
-            case let .success(moyaResponse):
-                let data = moyaResponse.data
-                let jsonObj = try? JSONSerialization.jsonObject(with: data, options: [])
-                if let json = jsonObj as? [String: Any]{
-                    if let jsonData = json["data"] as? [String: Any]{
-                        if let moviesData = jsonData["movies"] as? [[String: Any]]{
-                            for movieData in moviesData{
-                                let movie = Movie(json: movieData)!
-                                moviesSection.append(movie)
-                            }
-                        }
-                    }
-                }
-                self.insertMovies(moviesSection)
-            case let .failure(error):
-                // handle errors here
-                print(error)
+            viewModel.removeAllMovies()
+            viewModel.searchMoviesBy(movieName: searchText!){
+                self.tableView.reloadData()
             }
         }
     }
-    
     /*
      Called when the user hits the return button in keyboard entering the search term.
      */
@@ -72,19 +49,6 @@ class MoviesTableViewController: UITableViewController, UITextFieldDelegate {
         }
         return true
     }
-
-    var page = 1
-    var searchActive = false
-    var movies = [Array<Movie>]()
-    
-    /*
-     Insert the search results in the movies array
-     */
-    func insertMovies(_ newMovies: [Movie]){
-        self.movies.append(newMovies)
-        self.tableView.insertSections([0], with: .fade)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.estimatedRowHeight = tableView.rowHeight
@@ -93,25 +57,31 @@ class MoviesTableViewController: UITableViewController, UITextFieldDelegate {
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return self.movies.count
+        return viewModel.numberOfSections()
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.movies[section].count
+        return viewModel.numberOfRowsInSection(section)
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "movieViewCell", for: indexPath)
-        
-        let movie: Movie = movies[indexPath.section][indexPath.row]
-        
         if let movieCell = cell as? MovieViewCell {
-            movieCell.movie = movie
-            movieCell.rating.settings.updateOnTouch = false
+            configureMovieCell(cell: movieCell, forRowAtIndexPath: indexPath)
         }
-        
         return cell
     }
+    /*
+     Configure table cell (now cell cannot see the movie without going through the ViewModel
+     */
+    fileprivate func configureMovieCell(cell: MovieViewCell, forRowAtIndexPath indexPath: IndexPath){
+        cell.rating.settings.updateOnTouch = false
+        cell.title.text = viewModel.movieTitle(at: indexPath)
+        cell.rating.rating = viewModel.movieRating(at: indexPath)
+        cell.summary.text = viewModel.movieSummary(at: indexPath)
+        cell.smallCoverImage.kf.setImage(with: viewModel.movieSmallImageResource(at: indexPath))
+    }
+    
     /*
      Preparing for segue transition when the user hits a certain cell.
      Sets the movie for the Movie View Controller.
@@ -120,7 +90,8 @@ class MoviesTableViewController: UITableViewController, UITextFieldDelegate {
         if segue.identifier == "MovieDetails"{
             let controller = segue.destination as! MovieViewController
             if let indexPath = tableView.indexPath(for: sender as! UITableViewCell){
-                controller.movie = movies[indexPath.section][indexPath.row]
+                let movieViewModel = MovieViewModel(withMovie: viewModel.movieAtIndexPath(indexPath)!)
+                controller.viewModel = movieViewModel
             }
         }
     }

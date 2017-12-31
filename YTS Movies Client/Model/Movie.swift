@@ -12,7 +12,7 @@ struct Movie{
     
     let id:Int
     let descriptionFull:String
-    let rating:Float
+    let rating:Double
     let titleEnglish:String
     let year:Int
     let summary:String
@@ -24,7 +24,7 @@ struct Movie{
     init?(json: [String: Any]){
         guard let id = json["id"] as? Int,
             let descriptionFull = json["description_full"] as? String,
-            let rating = json["rating"] as? Float,
+            let rating = json["rating"] as? Double,
             let titleEnglish = json["title_english"] as? String,
             let year = json["year"] as? Int,
             let summary = json["summary"] as? String,

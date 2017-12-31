@@ -94,9 +94,16 @@
                     <navigationItem key="navigationItem" title="Movies" id="png-JZ-8rV"/>
                     <connections>
                         <outlet property="searchMovieTextField" destination="iOr-fe-VmW" id="bSl-FO-1yf"/>
+                        <outlet property="viewModel" destination="RfN-cA-ga2" id="Ncy-LA-KK2"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y4F-ci-ZcB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <customObject id="nsO-Jc-N3h" customClass="MoviesClient" customModule="YTS_Movies_Client" customModuleProvider="target"/>
+                <customObject id="RfN-cA-ga2" customClass="SearchMoviesViewModel" customModule="YTS_Movies_Client" customModuleProvider="target">
+                    <connections>
+                        <outlet property="moviesClient" destination="nsO-Jc-N3h" id="oUW-hg-GZ3"/>
+                    </connections>
+                </customObject>
             </objects>
             <point key="canvasLocation" x="509.60000000000002" y="137.18140929535232"/>
         </scene>

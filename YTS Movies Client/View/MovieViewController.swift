@@ -12,7 +12,7 @@ import Cosmos
 
 class MovieViewController: UIViewController {
 
-    var movie : Movie?
+    var viewModel: MovieViewModel?
     
     @IBOutlet weak var mediumCoverImage: UIImageView!
     @IBOutlet weak var mTitle: UILabel!
@@ -22,7 +22,7 @@ class MovieViewController: UIViewController {
         super.viewDidLoad()
 
         mDescription.isEditable = false
-        title = movie?.titleEnglish
+        title = viewModel?.titleEnglish
         updateUI()
         rating.settings.updateOnTouch = false
     }
@@ -30,11 +30,10 @@ class MovieViewController: UIViewController {
      updates the UI based on the movie change.
      */
     private func updateUI(){
-        mTitle.text = movie?.titleEnglish
-        mDescription.text = movie?.descriptionFull
-        let resource = ImageResource(downloadURL: movie!.largetCoverImage, cacheKey: movie!.titleEnglish)
-        mediumCoverImage.kf.setImage(with: resource)
-        rating.rating = Double(movie!.rating)
+        mTitle.text = viewModel?.titleEnglish
+        mDescription.text = viewModel!.descriptionFull
+        mediumCoverImage.kf.setImage(with: viewModel?.mediumCoverImage)
+        rating.rating = Double(viewModel!.rating)
     }
 
 }
